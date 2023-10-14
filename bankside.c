@@ -43,24 +43,29 @@ int main()
     initialise();                           // initialize the variables
 
 
+{
+    // FILE *file = fopen("bank_data.txt", "r");
+    // if (file == NULL)
+    // {
+    //     perror("Error opening file");
+    //     return 1;
+    // }
 
-    FILE *file = fopen("bank_data.csv", "r");
-    if (file == NULL)
+    // for (int i = 0; i < 5; i++)
+    // {
+    //     if (fscanf(file, "%d,%d,%d\n", &accounts[i].accountNumber, &accounts[i].balance,&accounts[i].code) == 2)
+    //     {
+    //         printf("Account Number: %d\n", accounts[i].accountNumber);
+    //         printf("Balance: %d\n", accounts[i].balance);
+    //     }
+    // }
+
+   // fclose(file);
+    }   
+     while (1)
     {
-        perror("Error opening file");
-        return 1;
+        /* code */
     }
-
-    // Read the data from the file in CSV format
-    for (int i = 0; i < 5; i++)
-    {
-        if (fscanf(file, "%d,%d,%d\n", &accounts[i].accountNumber, &accounts[i].balance,&accounts[i].code) == 2)
-        {
-            printf("Account Number: %d\n", accounts[i].accountNumber);
-            printf("Balance: %d\n", accounts[i].balance);
-        }
-    }
-
-    fclose(file);
+    
     return 0;
 }
