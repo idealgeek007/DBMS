@@ -95,14 +95,20 @@ void txnstrt()
     scanf("%d",&wdamt);
     if (wdamt>amt)
     {
-        printf("Not enough money in ATM");
+        printf("Not enough money in ATM\n\n");
+        txnstrt();
     }
     else if(wdamt>m)
     {
         printf("Cannot withdraw more than Rs.%d per transaction\n\n",m);
+        txnstrt();
     }
-    else
+    else 
+    {   if ( wdamt%500 == 0 || wdamt%100 == 0 || wdamt%200 ==0)
     {
+        
+    
+    
         accounts[pointer].balance -= wdamt;
         printf("Collect the money\n");
         printf("****************Reciet****************\n");
@@ -110,7 +116,12 @@ void txnstrt()
         printf("Account balance     : %d\n",accounts[pointer].balance);
         writeback();
     }
-    
+    else
+    {
+        printf("Enter withdrawl amount according to the denomination available\n\n");
+
+    }
+    }   
     
     while (1)
     {
