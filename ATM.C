@@ -3,9 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <time.h>
 
 int t, k, m, n;
-int amt,wdamt;
+int amt, wdamt;
 int accno, code;
 
 struct BankAccount
@@ -72,11 +73,6 @@ int authcode()
     printf("Enter password code\n");
     scanf("%d", &code);
     int flag = 0;
-    if (accounts[pointer].secure == 3)
-    {
-        printf("Card Locked ");
-        exit(0);
-    }
 
     for (int i = 0; i < 5; i++)
     {
@@ -92,56 +88,73 @@ void txnstrt()
 {
     printf("Enter the amount to withdraw : \n");
     printf("Denominations are 100    200     500\n ");
-    scanf("%d",&wdamt);
-    if (wdamt>amt)
+    scanf("%d", &wdamt);
+    if (wdamt > amt)
     {
         printf("Not enough money in ATM\n\n");
         txnstrt();
     }
-    else if(wdamt>m)
+    else if (wdamt > m)
     {
-        printf("Cannot withdraw more than Rs.%d per transaction\n\n",m);
+        printf("Cannot withdraw more than Rs.%d per transaction\n\n", m);
         txnstrt();
-    }
-    else 
-    {   if ( wdamt%500 == 0 || wdamt%100 == 0 || wdamt%200 ==0)
-    {
-        
-    
-    
-        accounts[pointer].balance -= wdamt;
-        printf("Collect the money\n");
-        printf("****************Reciet****************\n");
-        printf("Withdraw amount     : %d\n",wdamt);
-        printf("Account balance     : %d\n",accounts[pointer].balance);
-        writeback();
     }
     else
     {
-        printf("Enter withdrawl amount according to the denomination available\n\n");
+        if (wdamt % 500 == 0 || wdamt % 100 == 0 || wdamt % 200 == 0)
+        {
 
+            accounts[pointer].balance -= wdamt;
+            printf("Collect the money\n");
+            printf("****************Reciet****************\n");
+            printf("Withdraw amount     : %d\n", wdamt);
+            printf("Account balance     : %d\n", accounts[pointer].balance);
+            writeback();
+        }
+        else
+        {
+            printf("Enter withdrawl amount according to the denomination available\n\n");
+            txnstrt();
+        }
     }
-    }   
-    
+
     while (1)
     {
         /* code */
     }
-    
 }
 
-void writeback(){
-     FILE *file = fopen("bank_data.txt", "w");
-    if (file == NULL) {
+void writeback()
+{
+    FILE *file = fopen("bank_data.txt", "w");
+    if (file == NULL)
+    {
         perror("Error opening file for writing");
         return;
     }
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; i++)
+    {
         fprintf(file, "%d,%d,%d\n", accounts[i].accountNumber, accounts[i].balance, accounts[i].code);
     }
 
     fclose(file);
+    FILE *file1 = fopen("logfile.txt", "a"); // Open "logfile.txt" in append mode
+    if (file1 == NULL)
+    {
+        perror("Error opening log file for writing");
+        return;
+    }
+    time_t rawtime;
+    struct tm *timeinfo;
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+    char timestamp[50];
+    strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", timeinfo);
+    fprintf(file1,"Account number : %d  Transaction Amount : %d     ",accounts[pointer].accountNumber,wdamt);
+    fprintf(file1, "Transaction time: %s\n", timestamp);
+
+    fclose(file1);
 }
 
 int main()
@@ -162,23 +175,31 @@ int main()
         }
         else if (authbool == 1)
         {
-            for (int j = 0; j < 4; j++) // need to break this loop
+            for (int j = 1; j <= 3; j++) // need to break this loop
             {
-
-                if (authcode() == 1)
+                int code = authcode();
+                if (code == 1)
                 {
                     txnstrt();
                     break;
                 }
 
-                else
+                else if (code == 0)
                 {
-                    
+
                     printf("Wrong code entered\n\n\n");
                     accounts[pointer].secure = j;
+                    if (accounts[pointer].secure == 3)
+                    {
+                        printf("Card Locked ");
+                        while (1)
+                        {
+                        }
+
+                        exit(0);
+                    }
                 }
             }
-            
         }
     }
 }
