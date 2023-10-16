@@ -1,7 +1,5 @@
 {
     "files.associations": {
-        "ATM.C": "cpp",
-        "BANK.C": "cpp",
-        "winsock2.h": "c"
+        "ATM.C": "cpp"
     }
 }
