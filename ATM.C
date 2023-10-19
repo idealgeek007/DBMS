@@ -200,7 +200,7 @@ void writeback()
 }
 
 void reccall(){
-    printf(GREEN_TEXT "******************Select an operation to perform*****************\n\n" RESET_TEXT);
+    printf(GREEN_TEXT "\n\n******************Select an operation to perform*****************\n\n" RESET_TEXT);
                         printf(YELLOW_TEXT "        1:    Withdraw Money\n        2:    Check Balance\n        3:    Print Balance Receit\n        4:    Exit\n\n" RESET_TEXT);
                         printf(GREEN_TEXT "******************************************************************\n\n" RESET_TEXT);
                         scanf("%d", &option);
@@ -217,9 +217,9 @@ void reccall(){
 
                         case 3:
                             printf(GREEN_TEXT "****************Receit**************** \n\n\n" RESET_TEXT);
-                            printf("Account Number      :   %d\n", accounts[pointer].accountNumber);
-                            printf("Account Balance     :   %d\n", accounts[pointer].balance);
-                            printf("Today's transaction amount left  :%d\n", accounts[pointer].maxperday);
+                            printf("Account Number                   :   %d\n", accounts[pointer].accountNumber);
+                            printf("Account Balance                  :   %d\n", accounts[pointer].balance);
+                            printf("Today's transaction amount left  :   %d\n", accounts[pointer].maxperday);
 
                             printf(GREEN_TEXT "\n\n\n************************************** \n\n\n" RESET_TEXT);
                             reccall();
